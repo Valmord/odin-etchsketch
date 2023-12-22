@@ -1,0 +1,30 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    width: 90vh;
+}
+
+.grid-container {
+    margin: 0 20px;
+    display: flex;
+    flex: 1 0 0;
+}
+
+.grid-square {
+    border-style: solid;
+    border-color: red;
+    border-width: 1px;
+    flex: 1 0 0;
+    height: 100%;
+}
+
+.sketched {
+    background-color: blue;
+}
