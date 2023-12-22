@@ -8,43 +8,66 @@
 }
 
 body {
-    background-color: lightgray;
+    background-color: gray;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
 }
 
 h1 {
     display: inline;
-    padding-left: 20px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: aliceblue;
 }
 
-.header {
-    display: flex;
-    padding: 10px;
-    gap: 10px;
+.sidebar > button {
+    padding: 4px 0;
+    margin-bottom: 5px;
+    font-size: 14px;
+    background-color: cadetblue;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 2px 2px 4px 0px;
 }
 
-.grid-size-button {
-    padding: 8px;
+.sidebar > .toggled-button {
+    box-shadow: 0 0 0 0;
+    background-color: orange;   
 }
+
 
 .grid-container {
     display: flex;
     flex-direction: column;
     height: 80vh;
     width: 80vh;
+    border-width: 3px;
+    border-style: solid;
+    border-color: lightgray;
 }
 
 .square-container {
-    padding: 0 20px;
     display: flex;
     flex: 1 0 0;
 }
 
 .grid-square {
-    border-style: solid;
-    border-color: red;
-    border-width: 1px;
     flex: 1 0 0;
     height: 100%;
+}
+
+.square-borders {
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
 }
 
 .sketched {
