@@ -1,6 +1,8 @@
+const gridSizeBar = document.querySelector('.grid-size-range');
+
 //Create Grid
 const settings = {
-    gridSize: 16,
+    defaultGridSize: 16,
     gridToggled: false,
     colorMode: true,
     color: 'rgb(255,255,0)', //basic colour
@@ -28,6 +30,8 @@ const settings = {
     }
 }
 
+gridSizeBar.value = settings.defaultGridSize;
+updateGridText();
 renderGrid();
 
 function renderGrid(){
@@ -38,11 +42,12 @@ function renderGrid(){
 
 function drawGrid(){
     const gridContainer = document.querySelector('.grid-container');
+    gridSize = gridSizeBar.value;
     let gridHtml = '';
-    for (let i = 0; i < settings.gridSize; i++){
+    for (let i = 0; i < gridSize; i++){
         gridHtml += `<div class='square-container grid-${i}'>`
         
-        for (let j = 0; j < settings.gridSize; j++){
+        for (let j = 0; j < gridSize; j++){
             gridHtml += `\n<div class="grid-square"></div>`;
         }
         gridHtml += `</div>\n`   
@@ -52,30 +57,48 @@ function drawGrid(){
 
 function addSquareListeners(){
     const gridSquares = document.querySelectorAll('.grid-square');
+    const mouseCheckbox = document.querySelector('#auto-left-click');
     gridSquares.forEach( node => {
-        node.addEventListener('mouseenter', () => {
-            node.style.backgroundColor = getColour(node);
+        node.addEventListener('mouseover', event => {
+            if (mouseCheckbox.checked && event.buttons === 1) {
+                node.style.backgroundColor = getColour(node);
+            } else if (!mouseCheckbox.checked) {
+                node.style.backgroundColor = getColour(node);
+            }
+            
         })
     })
 }
 
-const gridSizeButton = document.querySelector('.grid-size-js');
-gridSizeButton.addEventListener('click', () => {
-    gridSizeButton.classList.toggle('toggled-button');
 
-    // Timeout added so you can see bugged is toggled for duration of prompt
-    setTimeout( () => {
-        let userGridChoice = +prompt('Please enter a whole number between 1 and 100', 16)
-        while(isNaN(userGridChoice) || userGridChoice > 100 || userGridChoice < 1){
-            userGridChoice = +prompt('Please enter a number between 1 and 100!');
-        }
-        settings.gridSize = Math.floor(userGridChoice);
-        renderGrid();
-        gridSizeButton.classList.toggle('toggled-button');
-    }, 5)
 
+// const gridSizeButton = document.querySelector('.grid-size-js');
+// gridSizeButton.addEventListener('click', () => {
+//     gridSizeButton.classList.toggle('toggled-button');
+
+//     // Timeout added so you can see bugged is toggled for duration of prompt
+//     setTimeout( () => {
+//         let userGridChoice = +prompt('Please enter a whole number between 1 and 100', 16)
+//         while(isNaN(userGridChoice) || userGridChoice > 100 || userGridChoice < 1){
+//             userGridChoice = +prompt('Please enter a number between 1 and 100!');
+//         }
+//         settings.gridSize = Math.floor(userGridChoice);
+//         renderGrid();
+//         gridSizeButton.classList.toggle('toggled-button');
+//     }, 5)
+
+// })
+
+function updateGridText(){
+    const gridSizeText = document.querySelector('.grid-size-text');
+    const gridSize = gridSizeBar.value;
+    gridSizeText.innerText = `Grid size: ${gridSize}²`;
+}
+
+gridSizeBar.addEventListener('change', () => {
+    updateGridText();
+    renderGrid();
 })
-
 
 function toggleGridLines(){
     const gridSquares = document.querySelectorAll('.grid-square');

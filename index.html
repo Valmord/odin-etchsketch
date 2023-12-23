@@ -11,12 +11,23 @@
   <div class="container">
     <div class="sidebar">
       <h1>Etch-a-Sketch</h1>
-      <button class="grid-size-button grid-size-js">Set grid size</button>
+      <div class="grid-text-container">
+        <span>1</span>
+        <span>100</span>
+      </div>
+      <input type="range" min="1" max="100" class="grid-size-range">
+      <span class="grid-size-text grid-size-js">Grid Size</span>
+
+      
       <button class="toggle-grid">Toggle grid</button>
       <button class="rainbow-button mode-group">Rainbow mode</button>
       <button class="gray-mode-button mode-group">Grayscale mode</button>
       <button class="light-mode-button mode-group">Lighten mode</button>
       <button class="eraser-button mode-group">Eraser mode</button>
+      <div class="checkbox-container">
+        <input type="checkbox" id="auto-left-click"> 
+        <label for="auto-left-click" class="checkbox-text">Require left-click-down?</label>
+      </div>
     </div>
     <div class="grid-container"></div>
   </div>
