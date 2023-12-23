@@ -29,6 +29,22 @@ h1 {
     text-align: center;
 }
 
+.colour-container {
+    color: aliceblue;
+    font-weight: bold;
+    display: flex;
+    padding: 0 30px;
+    justify-content: space-around;
+    align-items: center;
+    height: 30px;
+    font-size: 14px;
+}
+
+.current-colour {
+    height: 20px;
+    width: 30px;
+}
+
 .grid-text-container, .grid-size-text {
     font-size: 14px;
     font-weight: bold;

@@ -5,20 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js" defer></script>
     <script src="./script/code.js" defer></script>
 </head>
 <body>
   <div class="container">
-    <div class="sidebar">
+    <div class="sidebar"> 
       <h1>Etch-a-Sketch</h1>
+      <div class="colour-container">
+        <input class="current-colour" data-coloris>
+        <span>Colour</span>
+      </div>
+
       <div class="grid-text-container">
         <span>1</span>
         <span>100</span>
       </div>
       <input type="range" min="1" max="100" class="grid-size-range">
       <span class="grid-size-text grid-size-js">Grid Size</span>
-
-      
       <button class="toggle-grid">Toggle grid</button>
       <button class="rainbow-button mode-group">Rainbow mode</button>
       <button class="gray-mode-button mode-group">Grayscale mode</button>
