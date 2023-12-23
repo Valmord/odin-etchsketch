@@ -43,6 +43,10 @@ h1 {
     background-color: orange;   
 }
 
+.sidebar > .toggle-grid {
+    margin-bottom: 20px;
+}
+
 
 .grid-container {
     display: flex;

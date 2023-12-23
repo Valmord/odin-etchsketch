@@ -2,20 +2,29 @@
 const settings = {
     gridSize: 16,
     gridToggled: false,
+    colorMode: true,
+    color: 'rgb(255,255,0)', //basic colour
+    eraser: false,
     rainbow: false,
     grayScale: false,
-    colorMode: true,
-    color: 'red',
+    defaultGrayColor: 'rgb(225,225,225)',
+    dim: 15, //amount to reduce contrast
+    lightMode: false,
+    defaultLightenColor: 'rgb(255,255,255)',
+    lighten: 15, //amount to increase contrast
 
-    changeMode(mode){
+    changeMode(mode, buttonNode){
+        const buttons = document.querySelectorAll('.mode-group');
+        buttons.forEach(button => button.classList.remove('toggled-button'));
         if (this[mode]) {
-            [this.rainbow, this.grayScale, this.colorMode,] = 
-            [false, false, true]
+            [this.eraser, this.rainbow, this.grayScale, this.lightMode, this.colorMode] = 
+            [false, false, false, false, true];
         } else {
-            [this.rainbow, this.grayScale, this.colorMode,] = 
-            [false, false, false]
-            this[mode] = !this[mode]
-        }
+            [this.eraser, this.rainbow, this.grayScale, this.lightMode, this.colorMode,] = 
+            [false, false, false, false, false];
+            this[mode] = !this[mode];
+            buttonNode.classList.toggle('toggled-button');
+            }
     }
 }
 
@@ -42,40 +51,15 @@ function drawGrid(){
 }
 
 function addSquareListeners(){
-    const gridSquares = document.querySelectorAll('.grid-square')
+    const gridSquares = document.querySelectorAll('.grid-square');
     gridSquares.forEach( node => {
         node.addEventListener('mouseenter', () => {
-            setColour(node);
+            node.style.backgroundColor = getColour(node);
         })
     })
 }
 
-function setColour(node){
-    if (settings.rainbow){
-        node.style['background-color'] = getRandomHexColour();
-    } else if (settings.grayScale) {
-
-    } else if (settings.colorMode) {
-        node.style['background-color'] = settings.color;
-    }
-}
-
-const rainbowButton = document.querySelector('.rainbow-button')
-rainbowButton.addEventListener('click',()=>{
-    settings.changeMode('rainbow');
-    rainbowButton.classList.toggle('toggled-button');
-})
-
-function toggleRainbowMode(){
-
-}
-
-function getRandomHexColour(){
-    return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-}
-
-
-const gridSizeButton = document.querySelector('.grid-size-js')
+const gridSizeButton = document.querySelector('.grid-size-js');
 gridSizeButton.addEventListener('click', () => {
     gridSizeButton.classList.toggle('toggled-button');
 
@@ -85,7 +69,7 @@ gridSizeButton.addEventListener('click', () => {
         while(isNaN(userGridChoice) || userGridChoice > 100 || userGridChoice < 1){
             userGridChoice = +prompt('Please enter a number between 1 and 100!');
         }
-        gridSize = Math.floor(userGridChoice);
+        settings.gridSize = Math.floor(userGridChoice);
         renderGrid();
         gridSizeButton.classList.toggle('toggled-button');
     }, 5)
@@ -103,4 +87,71 @@ toggleGridButton.addEventListener('click',() => {
     toggleGridLines();
     settings.gridToggled = !settings.gridToggled;
     toggleGridButton.classList.toggle('toggled-button');
+})
+
+
+
+
+function getColour(node){
+    const bgColour = node.style.backgroundColor;
+    if (settings.rainbow){
+        return getRandomHexColour();
+    } else if (settings.grayScale) {
+        if (!bgColour) { 
+            return settings.defaultGrayColor
+        } else {
+            return dimColor(bgColour);
+        }
+    } else if (settings.lightMode) {
+        if (!bgColour) { 
+            return settings.defaultLightenColor
+        } else {
+            return lightenColor(bgColour);
+        }
+    } else if (settings.eraser) {
+        return ''; //assign bgColour as nothing
+    } else if (settings.colorMode) {
+        return settings.color;
+    }
+}
+
+const rainbowButton = document.querySelector('.rainbow-button');
+rainbowButton.addEventListener('click',()=>{
+    settings.changeMode('rainbow', rainbowButton);
+})
+
+function getRandomHexColour(){
+    return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+}
+
+const grayScaleButton = document.querySelector('.gray-mode-button');
+grayScaleButton.addEventListener('click', () => {
+    settings.changeMode('grayScale', grayScaleButton);
+})
+
+function dimColor(rgbColour){
+    const colourSplit = rgbColour.split(',');
+    const red = colourSplit[0].substr(4, 3);
+    const green = colourSplit[1];
+    const blue = colourSplit[2].slice(0,-1);
+    return `rgb(${red-settings.dim},${green-settings.dim},${blue-settings.dim})`
+}
+
+
+const lightButton = document.querySelector('.light-mode-button');
+lightButton.addEventListener('click', () => {
+    settings.changeMode('lightMode',lightButton);
+})
+
+function lightenColor(rgbColour){
+    const colourSplit = rgbColour.split(',');
+    const red = colourSplit[0].substr(4, 3);
+    const green = colourSplit[1];
+    const blue = colourSplit[2].slice(0,-1);
+    return `rgb(${+red+settings.lighten},${+green+settings.lighten},${+blue+settings.lighten})`
+}
+
+const eraserButton = document.querySelector('.eraser-button');
+eraserButton.addEventListener('click', () => {
+    settings.changeMode('eraser',eraserButton);
 })
